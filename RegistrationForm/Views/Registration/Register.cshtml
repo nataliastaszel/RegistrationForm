@@ -1,0 +1,102 @@
+@model RegistrationForm.Models.RegistrationData
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2 class="text-center">Registration Form</h2>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <form asp-action="Register" method="post" id="registrationForm">
+            <div class="mb-3">
+                <label asp-for="FirstName" class="form-label">First Name</label>
+                <input asp-for="FirstName" class="form-control"/>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label">Last Name</label>
+                <input asp-for="LastName" class="form-control"/>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email Address</label>
+                <input asp-for="Email" type="email" class="form-control"/>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password" type="password" class="form-control"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                <input asp-for="ConfirmPassword" type="password" class="form-control"/>
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                <input asp-for="PhoneNumber" type="tel" class="form-control"/>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Age" class="form-label">Age</label>
+                <input asp-for="Age" type="number" class="form-control"/>
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="City" class="form-label">City</label>
+                <select asp-for="City" class="form-select">
+                    <option value="">-- Select City --</option>
+                    <option value="Warsaw">Warsaw</option>
+                    <option value="Krakow">Krakow</option>
+                    <option value="Wroclaw">Wroclaw</option>
+                    <option value="Gdansk">Gdansk</option>
+                    <option value="Poznan">Poznan</option>
+                </select>
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="reset" class="btn btn-secondary">Clear</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script>
+        $(document).ready(function () {
+            $("#registrationForm").validate({
+                rules: {
+                    Password: {
+                        minlength: 8,
+                        regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/
+                    },
+                    ConfirmPassword: {
+                        equalTo: "#Password"
+                    },
+                    Age: {
+                        min: 11,
+                        max: 80
+                    }
+                },
+                messages: {
+                    Password: {
+                        regex: "The password must contain at least one uppercase letter, one lowercase letter and one number."
+                    }
+                }
+            });
+        });
+    </script>
+}
